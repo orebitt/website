@@ -1,0 +1,40 @@
+/* General Style*/
+html {
+  font-family: 'sans serif';
+  font-size: 16px;
+  background-color: #ccc;
+}
+/* Card */
+.card {
+  width:500px;
+  height:300px;
+  margin:100px auto;
+  background-color:red;
+  border: 5px solid black;
+  border-radius: 15px;
+}
+
+.card article{
+  height: 200px;
+  background-color: coral;
+}
+/*Change all images inside an article inside a card to float on the right side*/
+.card article img {
+  float: right;
+}
+
+/*Change all p inside an article inside a card that gives padding and a new color to our text*/
+.card article p {
+  padding: 15px;
+  color: rgba(255, 255, 255, 0.8);
+}
+/* Header, align to center*/
+.card header h2 {
+  text-align: center;
+}
+/* Footer, centered and slightly further up */
+.card footer p {
+  text-align: center;
+  margin: 7px;
+}
+
