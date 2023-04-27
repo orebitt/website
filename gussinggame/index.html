@@ -49,8 +49,7 @@
     <script>
 
         let randomNumber = Math.floor(Math.random() * 100) + 1;
-        console.log(Math.floor(Math.random() * 100))
-        console.log(randomNumber);
+        console.log('Cheating! Heres the number: ', randomNumber);
 
         let guesses = document.querySelector('.guesses');
         let lastResult = document.querySelector('.lastResult');
@@ -66,7 +65,59 @@
             if (guessCount === 1) { // If it's the first guess
                 guesses.textContent = 'Previous guesses: ';
             }
+            guesses.textContent += userGuess + ' '; // Outputs something like this: 5 100 30 50 80
+            if (userGuess === randomNumber) { // checking if userGuess === randomNumber, win condition
+              lastResult.textContent = 'Congratulations! You got it right!'; // Add congrats message
+              lastResult.style.backgroundColor = 'green'; // Change the CSS background of lastResult
+              lowOrHi.textContent = ''; // Guess is not too low or high, so we don't want to show text
+              setGameOver(); // Prep for the next game (new number generation, clearing garbage...)
+            }else if (guessCount === 10) { // If there are too many guesses
+              lastResult.textContent = '!!!GAME OVER!!!'; // Tell the user they lost
+              lastResult.style.backgroundColor = 'red'; // Chagne the CSS background to red
+              lowOrHi.textContent = ''; // not too low or too high, so cler the text
+              setGameOver(); // prep for next game
+
+            }else { // Guessed wrong, guesses left
+              lastResult.textContent = 'Wrong!'; // tell the user they are wrong
+              lastResult.style.backgroundColor = 'red'; // Change CSS to red
+              if(userGuess < randomNumber) { // If there guess is too low 
+                lowOrHi.textContent = 'Last guess was too low!'; // Tell the user it's too low
+              } else if (userGuess > randomNumber){ // if too high
+              lowOrHi.textContent = 'Last guess was too high!'; // tell the user
+            }
         }
+        guessCount++; // adds 1 to our guess count
+        guessField.value = ''; // Gets rid of text in the textbox so user doesn't have to manaually delete
+        guessField.focus(); // Selects the textbox so that the user can start typing
+
+      }
+
+      guessSubmit.addEventListener('click', checkGuess);
+
+      function setGameOver() {
+        guessField.disabled = true; // User can't type in the textbox
+        guessSubmit.disabled = true; // User can't click the submit button
+        resetButton = document.createElement('button'); // Adds button to our HTML
+        resetButton.textContent = 'Start new game'; // Add text to the button that we added
+        document.body.appendChild(resetButton); // Annoying JavaScript, adds JS function to our element
+        resetButton.addEventListener('click', resetGame); // When we click the resetButton, run resetGame()
+      }   
+
+      function resetGame() {
+        guessCount = 1; // Resets our guess count to 1
+        const resetParas = document.querySelectorAll('.resultParas p'); // clear all <p> tags within class 'resultParas'
+        for (const resetPara of resetParas) { // Iterate through each <p> element inside resultParas
+          resetPara.textContent = ''; // Setting the text of the <p> to blank
+        }
+        resetButton.parentNode.removeChild(resetButton); // Removes the resetButton from out HTML
+        guessField.disabled = false; // re-enables our guessField
+        guessSubmit.disabled = false; // Re-enabling submit button
+        guessField.value = ''; // Erasing any text inside the guessField
+        guessField.focus(); // Setting the foucus to the text box
+        lastResult.style.backgroundColor = 'white'; // change lastResult CSS from red/green to white
+        randomNumber = Math.floor(Math.random() * 100) + 1; //generate a new random number
+      }
+
 
     </script>
   </body>
